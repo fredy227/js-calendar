@@ -86,15 +86,15 @@ export class MakeCalendar {
         const c = Basic.create
         const ol = c("ol", "_calendar-month-ol")
         for (let i = 1; i <= Basic.date.countDays(); i++) {
-            const day = c("li", "_calendar-month-day-cell rs_c_u_0")
+            const cell = c("li", "_calendar-month-day-cell rs_c_u_0")
             const button = c("button", "_calendar-month-day-button _btn_e_0")
-            if(i==1)day.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
+            if(i==1)cell.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
             if(Basic.date.getDateFormat(i)==this.#formatCurrentDate) button.classList.add("_calendar-print-today")
             button.addEventListener("click", this.#handlerClick)
             button.setAttribute("data-date", Basic.date.getDateFormat(i))
             button.innerText = i.toString().padStart(2, "0")
-            day.appendChild(button)
-            ol.appendChild(day)
+            cell.appendChild(button)
+            ol.appendChild(cell)
         }
         return ol
 
@@ -109,11 +109,18 @@ export class MakeCalendar {
     })
 
     }
-    resize(){
+    resize(container){
         document.querySelectorAll(".rs_c_u_0").forEach(elm=>{
-            const width = elm.clientWidth
-            console.log(width)
-            elm.setAttribute("style", "height:" + width/2+"px")
+            const height = container.clientHeight
+            elm.setAttribute("style", "height:" + Math.floor(height/9)+"px")
+        })
+    }
+    resizeEvent(container){
+        window.addEventListener("resize", ()=>{
+            document.querySelectorAll(".rs_c_u_0").forEach(elm=>{
+                const height = container.clientHeight
+                elm.setAttribute("style", "height:" + Math.floor(height/9)+"px")
+            })
         })
     }
     getEvents() {
@@ -144,7 +151,8 @@ export class MakeCalendar {
     renderCalendar(container) {
             this.#createStructure()
             container.appendChild(this.#structure)
-            this.resize()
+            this.resize(container)
+            this.resizeEvent(container)
             this.getEvents()
 
     }

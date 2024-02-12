@@ -7,7 +7,7 @@
 }
 ._calendar-container{
     width: 100%;
-    min-width: min-content;
+    min-width: fit-content;
     overflow: hidden;
     height: 100%;
     border-radius: 6px;
@@ -43,14 +43,15 @@ div._calendar-container{
     color: #fff;
 }
 ._calendar-container ._calendar-action-btn-container>div:nth-child(2){
-    min-width: 300px !important;
+    min-width: fit-content;
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 4px;
+    flex-wrap: nowrap;
 }
 ._calendar-container ._calendar-action-btn-container>div:nth-child(2)>div{
-    width: 100%;
+    width: fit-content;
 }
 ._calendar-container ._calendar-header span._calendar-current-month{
     display: inline-block;
@@ -126,12 +127,13 @@ div._calendar-container{
     border-radius: 12px;
     padding:4px;
     background-color: rgb(241, 241, 241);
+    min-height: fit-content !important;
 }
 ._calendar-container ._calendar-month-ol li button{
-    height: auto;
-    width: auto;
+    height:100%;
+    width: 100%;
     max-width: 100%;
-    border-radius: 50%;
+    border-radius: inherit;
     border: none;
     padding: 6px;
     text-align: center;
