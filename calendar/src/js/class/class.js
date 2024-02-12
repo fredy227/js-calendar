@@ -15,7 +15,7 @@ export class MakeCalendar {
      * 
      * @param {string} lang -en->english, es->espanol
      */
-    constructor(url, HandlerClick, lang,bearerToken) {
+    constructor(HandlerClick,lang,url,bearerToken) {
         this.#lang = lang
         this.#handlerClick = HandlerClick
         this.#url = url
@@ -86,7 +86,7 @@ export class MakeCalendar {
         const c = Basic.create
         const ol = c("ol", "_calendar-month-ol")
         for (let i = 1; i <= Basic.date.countDays(); i++) {
-            const day = c("li", "_calendar-month-day-cell")
+            const day = c("li", "_calendar-month-day-cell rs_c_u_0")
             const button = c("button", "_calendar-month-day-button _btn_e_0")
             if(i==1)day.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
             if(Basic.date.getDateFormat(i)==this.#formatCurrentDate) button.classList.add("_calendar-print-today")
@@ -108,6 +108,13 @@ export class MakeCalendar {
         }
     })
 
+    }
+    resize(){
+        document.querySelectorAll(".rs_c_u_0").forEach(elm=>{
+            const width = elm.clientWidth
+            console.log(width)
+            elm.setAttribute("style", "height:" + width/2+"px")
+        })
     }
     getEvents() {
         if(typeof this.#bearerToken !== "undefined"){
@@ -137,6 +144,7 @@ export class MakeCalendar {
     renderCalendar(container) {
             this.#createStructure()
             container.appendChild(this.#structure)
+            this.resize()
             this.getEvents()
 
     }

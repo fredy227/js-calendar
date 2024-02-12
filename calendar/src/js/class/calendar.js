@@ -12,10 +12,10 @@ export class Calendar{
      * @param {String} lang Values 'en'  or 'es' [english, espanish]
      * @param {String} bearerToken Bearer Token
      */
-    constructor(url,handlerClick,lang,bearerToken) {
+    constructor(handlerClick,lang,url,bearerToken) {
         if(!url) throw new Error("You must provide an url")
         if(!handlerClick) throw new Error("You must provide a handler function")
-        this.#makeCalendar = new MakeCalendar(url,handlerClick,lang,bearerToken)
+        this.#makeCalendar = new MakeCalendar(handlerClick,lang,url,bearerToken)
     }
     /**
      * 
