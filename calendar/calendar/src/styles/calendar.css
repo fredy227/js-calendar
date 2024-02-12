@@ -1,0 +1,155 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    list-style: none;
+}
+._calendar-container{
+    width: 100%;
+    min-width: min-content;
+    overflow: hidden;
+    height: 100%;
+    border-radius: 6px;
+    position: relative;
+    user-select: none;
+}
+div._calendar-container{
+    box-shadow: 0px 0px 18px -1px rgb(114, 113, 113);
+}
+._calendar-container ._calendar-header{
+    padding-top: 12px;
+
+}
+._calendar-container ._calendar-header span._calendar-current-year{
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: calc(10px + 50%) ;
+}
+._calendar-container ._calendar-action-btn-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    /* background: linear-gradient(90deg,#535b97,#7a89fb); */
+    /* background: linear-gradient(90deg,#8781bd 0%,#c78bbd 30%,#c035a9 100%); */
+    /* background-color: #343434; */
+    background-color: #1B2631;
+
+    width: 98%;
+    margin: auto;
+    border-radius: 8px;
+    padding: 6px;
+    color: #fff;
+}
+._calendar-container ._calendar-action-btn-container>div:nth-child(2){
+    min-width: 300px !important;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+}
+._calendar-container ._calendar-action-btn-container>div:nth-child(2)>div{
+    width: 100%;
+}
+._calendar-container ._calendar-header span._calendar-current-month{
+    display: inline-block;
+    width: 100%;
+    text-align: right;
+    font-size: calc(10px + 50%) ;
+    padding-right: 12px;
+}
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn{
+    display: inline-block;
+    height: 2vw;
+    width: 2.5vw;
+    min-height: 25px;
+    min-width: 30px;
+    position: relative;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    /* background-color: rgba(98, 100, 196, 0.795); */
+    background-color: #34495E;
+    border-radius: 8px;
+    margin-right: 12px;
+}
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn:hover{
+    transform: scale(1.2);
+}
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn::before{
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn:nth-child(1):before{
+    background-image: url(../assets/left-icon.svg);
+}
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn:nth-child(2):before{
+    background-image: url(../assets/right-icon.svg);
+}
+._calendar-container ._calendar-week-days-container,._calendar-container ._calendar-month-days-container{
+    padding: 12px;
+    text-align: center;
+}
+._calendar-container ._calendar-week-days-container ol{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    gap: 12px;
+}
+._calendar-container ._calendar-week-days-container ol li{
+    font-size:calc(30% + 10px) ;
+    font-weight: 600;
+    color: #34495E;
+    border-bottom: 2px solid rgb(216, 216, 216);
+    padding: 6px 4px;
+}
+._calendar-container ._calendar-month-ol{
+    display: grid;
+    grid-template-columns: repeat(7,1fr);
+    grid-template-rows: repeat(6,6fr);
+    gap:8px 12px;
+}
+._calendar-container ._calendar-month-ol li{
+    min-height:auto;
+    border-radius: 4px;
+    padding:0px 4px;
+}
+._calendar-container ._calendar-month-ol li button{
+    height: auto;
+    width: auto;
+    max-width: 100%;
+    border-radius: 50%;
+    border: none;
+    padding: 12px;
+    text-align: center;
+    font-size:calc(30% + 10px) ;
+    font-weight: 500;
+    background-color: transparent;
+    color: #205891;
+    cursor: pointer;
+    
+}
+._calendar-container ._calendar-month-ol li button:hover{
+    background-color: #34495E;
+    color: #fff;
+}
+._calendar-container li button._calendar-print-today{
+    background-color: #205891;
+    color: #fff;
+}
+
+._calendar-container ._calendar-first-day-1{grid-column-start: 1;}
+._calendar-container ._calendar-first-day-2{grid-column-start: 2;}
+._calendar-container ._calendar-first-day-3{grid-column-start: 3;}
+._calendar-container ._calendar-first-day-4{grid-column-start: 4;}
+._calendar-container ._calendar-first-day-5{grid-column-start: 5;}
+._calendar-container ._calendar-first-day-6{grid-column-start: 6;}
+._calendar-container ._calendar-first-day-7{grid-column-start: 7;}

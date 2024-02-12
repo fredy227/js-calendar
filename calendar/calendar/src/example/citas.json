@@ -1,0 +1,26 @@
+[
+        {
+            "id":1,
+            "title":"Event 1",
+            "date":"2024-02-02",
+            "hour":"11:30"
+        },
+        {
+            "id":2,
+            "title":"Event 2",
+            "date":"2024-02-04",
+            "hour":"10:30"
+        },
+        {
+            "id":3,
+            "title":"Subida a la montana",
+            "date":"2024-08-31",
+            "hour":"15:30"
+        },
+        {
+            "id":4,
+            "title":"Reunion de amigos en la mañana",
+            "date":"2024-08-23",
+            "hour":"17:00"
+        }
+]
