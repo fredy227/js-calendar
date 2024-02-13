@@ -1,4 +1,5 @@
 import Basic from "../basic.js"
+import { Calendar } from "./calendar.js"
 
 export class MakeCalendar {
     /**
@@ -10,12 +11,12 @@ export class MakeCalendar {
     #url
     #bearerToken
     #currentDate = new Date()
-    #formatCurrentDate = `${this.#currentDate.getFullYear()}-${(this.#currentDate.getMonth()+1).toString().padStart(2,"0")}-${this.#currentDate.getDate().toString().padStart(2,"0")}`
+    #formatCurrentDate = `${this.#currentDate.getFullYear()}-${(this.#currentDate.getMonth() + 1).toString().padStart(2, "0")}-${this.#currentDate.getDate().toString().padStart(2, "0")}`
     /**
      * 
      * @param {string} lang -en->english, es->espanol
      */
-    constructor(HandlerClick,lang,url,bearerToken) {
+    constructor(HandlerClick, lang, url, bearerToken) {
         this.#lang = lang
         this.#handlerClick = HandlerClick
         this.#url = url
@@ -47,7 +48,7 @@ export class MakeCalendar {
         this.#structure = container
     }
 
-    actionBtn(){
+    actionBtn() {
         const parent = Basic.create("div", "_calendar-action-btn-container")
         const div1 = Basic.create("div")
         const year = Basic.create("span", "_calendar-current-year _cy_u_")
@@ -56,16 +57,19 @@ export class MakeCalendar {
 
         const div2 = Basic.create("div")
         const prevMonth = Basic.create("button", "_calendar-action-btn")
-        prevMonth.addEventListener("click",()=>{
+        prevMonth.addEventListener("click", () => {
             Basic.date.prevMonth()
             this.updateCalendar()
+            this.resize()
+
         })
         const month = Basic.create("span", "_calendar-current-month _cm_u_")
-        month.innerText = Basic.date.getStringMonth(Basic.date.date.getMonth(),this.#lang)
+        month.innerText = Basic.date.getStringMonth(Basic.date.date.getMonth(), this.#lang)
         const nextMonth = Basic.create("button", "_calendar-action-btn")
-        nextMonth.addEventListener("click",()=>{
+        nextMonth.addEventListener("click", () => {
             Basic.date.nextMonth()
             this.updateCalendar()
+            this.resize()
         })
         const c_month = Basic.create("div")
         const c_btns = Basic.create("div")
@@ -79,7 +83,7 @@ export class MakeCalendar {
         parent.appendChild(div1)
         parent.appendChild(div2)
         return parent
-        
+
     }
 
     fillCalendar() {
@@ -88,8 +92,8 @@ export class MakeCalendar {
         for (let i = 1; i <= Basic.date.countDays(); i++) {
             const cell = c("li", "_calendar-month-day-cell rs_c_u_0")
             const button = c("button", "_calendar-month-day-button _btn_e_0")
-            if(i==1)cell.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
-            if(Basic.date.getDateFormat(i)==this.#formatCurrentDate) button.classList.add("_calendar-print-today")
+            if (i == 1) cell.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
+            if (Basic.date.getDateFormat(i) == this.#formatCurrentDate) button.classList.add("_calendar-print-today")
             button.addEventListener("click", this.#handlerClick)
             button.setAttribute("data-date", Basic.date.getDateFormat(i))
             button.innerText = i.toString().padStart(2, "0")
@@ -99,47 +103,53 @@ export class MakeCalendar {
         return ol
 
     }
+    resize() {
+        document.querySelectorAll(".rs_c_u_0").forEach(elm => {
+            const height = elm.clientWidth
+            elm.setAttribute("style", "height:" + Math.floor(height) + "px")
+        })
+    }
+    resizeEvent(container) {
+        new ResizeObserver(this.resize).observe(container)
+    }
     printEvents(events) {
-    events.map(event=>{
-        const element = document.querySelector(`[data-date="${event.date}"]`)
-        if(element){
-            const parent = element.parentNode
-            console.log(parent)
-        }
-    })
+        let arr = {}
+        events.forEach(event => {
+            arr[event.date] = (arr[event.date] || 0) + 1
+        })
+        events.map(event => {
+            const element = document.querySelector(`[data-date="${event.date}"]`)
+            if (element) {
+                const parent = element.parentNode
+                if (!parent.childNodes[1]) {
+                    const spanEvent = Basic.create("span", "_calendar-print-event-label")
+                    spanEvent.innerText = `${arr[event.date]} ${this.#lang != "es" ? "Eventos" : "Events"}`
+                    parent.appendChild(spanEvent)
+                }
+
+            }
+        })
 
     }
-    resize(container){
-        document.querySelectorAll(".rs_c_u_0").forEach(elm=>{
-            const height = container.clientHeight
-            elm.setAttribute("style", "height:" + Math.floor(height/9)+"px")
-        })
-    }
-    resizeEvent(container){
-        window.addEventListener("resize", ()=>{
-            document.querySelectorAll(".rs_c_u_0").forEach(elm=>{
-                const height = container.clientHeight
-                elm.setAttribute("style", "height:" + Math.floor(height/9)+"px")
-            })
-        })
-    }
     getEvents() {
-        if(typeof this.#bearerToken !== "undefined"){
-            Basic.fetch(`${this.#url}?date=${Basic.date.getYearMonth()}`)
-            .then(res=>{this.printEvents(res)})
-            .catch(err=>{console.log(err)})
-        }else{
-            Basic.authFetch(`${this.#url}?date=${Basic.date.getYearMonth()}`,this.#bearerToken)
-            .then(res=>{this.printEvents(res)})
-            .catch(err=>{console.log(err)})
+        if (typeof this.#url !== "undefined") {
+            if (typeof this.#bearerToken !== "undefined") {
+                Basic.fetch(`${this.#url}?date=${Basic.date.getYearMonth()}`)
+                    .then(res => { this.printEvents(res) })
+                    .catch(err => { console.log(err) })
+            } else {
+                Basic.authFetch(`${this.#url}?date=${Basic.date.getYearMonth()}`, this.#bearerToken)
+                    .then(res => { this.printEvents(res) })
+                    .catch(err => { console.log(err) })
+            }
         }
     }
     updateCalendar() {
-        Basic.wipeEvents(document.querySelectorAll("._btn_e_0"),"click",this.#handlerClick)
+        Basic.wipeEvents(document.querySelectorAll("._btn_e_0"), "click", this.#handlerClick)
         const currentMonth = document.querySelector("._cm_u_")
         const currentYear = document.querySelector("._cy_u_")
         const monthFillable = document.querySelector("._cmd_u_")
-        currentMonth.innerText = Basic.date.getStringMonth(Basic.date.date.getMonth(),this.#lang)
+        currentMonth.innerText = Basic.date.getStringMonth(Basic.date.date.getMonth(), this.#lang)
         currentYear.innerText = Basic.date.date.getFullYear().toString()
         monthFillable.innerHTML = null
         monthFillable.appendChild(this.fillCalendar())
@@ -149,11 +159,12 @@ export class MakeCalendar {
      * @param {HTMLDivElement} container 
      */
     renderCalendar(container) {
-            this.#createStructure()
-            container.appendChild(this.#structure)
-            this.resize(container)
-            this.resizeEvent(container)
-            this.getEvents()
+        container.setAttribute("style", "min-height:fit-content !important")
+        this.#createStructure()
+        container.appendChild(this.#structure)
+        this.resize()
+        this.resizeEvent(container)
+        this.getEvents()
 
     }
 }
