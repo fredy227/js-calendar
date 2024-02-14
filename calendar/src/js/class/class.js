@@ -56,7 +56,7 @@ export class MakeCalendar {
         div1.appendChild(year)
 
         const div2 = Basic.create("div")
-        const prevMonth = Basic.create("button", "_calendar-action-btn")
+        const prevMonth = Basic.create("button", "_calendar-action-btn __n-m")
         prevMonth.addEventListener("click", () => {
             Basic.date.prevMonth()
             this.updateCalendar()
@@ -65,7 +65,7 @@ export class MakeCalendar {
         })
         const month = Basic.create("span", "_calendar-current-month _cm_u_")
         month.innerText = Basic.date.getStringMonth(Basic.date.date.getMonth(), this.#lang)
-        const nextMonth = Basic.create("button", "_calendar-action-btn")
+        const nextMonth = Basic.create("button", "_calendar-action-btn __p_m")
         nextMonth.addEventListener("click", () => {
             Basic.date.nextMonth()
             this.updateCalendar()
@@ -92,7 +92,10 @@ export class MakeCalendar {
         for (let i = 1; i <= Basic.date.countDays(); i++) {
             const cell = c("li", "_calendar-month-day-cell rs_c_u_0")
             const button = c("button", "_calendar-month-day-button _btn_e_0")
-            if (i == 1) cell.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
+            if (i == 1){
+                cell.classList.add(`_calendar-first-day-${Basic.date.firstDay()}`)
+                cell.style.gridColumnStart=`${Basic.date.firstDay()}`
+            }
             if (Basic.date.getDateFormat(i) == this.#formatCurrentDate) button.classList.add("_calendar-print-today")
             button.addEventListener("click", this.#handlerClick)
             button.setAttribute("data-date", Basic.date.getDateFormat(i))
@@ -106,7 +109,7 @@ export class MakeCalendar {
     resize() {
         document.querySelectorAll(".rs_c_u_0").forEach(elm => {
             const height = elm.clientWidth
-            elm.setAttribute("style", "height:" + Math.floor(height) + "px")
+            elm.style.height=`${Math.floor(height)}px`
         })
     }
     resizeEvent(container) {
@@ -123,7 +126,7 @@ export class MakeCalendar {
                 const parent = element.parentNode
                 if (!parent.childNodes[1]) {
                     const spanEvent = Basic.create("span", "_calendar-print-event-label")
-                    spanEvent.innerText = `${arr[event.date]} ${this.#lang != "es" ? "Eventos" : "Events"}`
+                    spanEvent.innerText = `${arr[event.date]}`
                     parent.appendChild(spanEvent)
                 }
 
@@ -153,6 +156,7 @@ export class MakeCalendar {
         currentYear.innerText = Basic.date.date.getFullYear().toString()
         monthFillable.innerHTML = null
         monthFillable.appendChild(this.fillCalendar())
+        this.getEvents()
     }
     /**
      * 

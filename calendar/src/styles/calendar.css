@@ -27,10 +27,12 @@ div._calendar-container{
     width: 100%;
     text-align: center;
     font-size: calc(10px + 50%) ;
+    text-align: left;
+    margin-left: 12px;
 }
 ._calendar-container ._calendar-action-btn-container{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     background-color: #1B2631;
 
@@ -40,6 +42,10 @@ div._calendar-container{
     padding: 6px;
     color: #fff;
 }
+._calendar-container ._calendar-action-btn-container>div:nth-child(1){
+    width: 100%;
+}
+
 ._calendar-container ._calendar-action-btn-container>div:nth-child(2){
     min-width: fit-content;
     display: flex;
@@ -87,10 +93,10 @@ div._calendar-container{
     background-position: center;
     background-repeat: no-repeat;
 }
-._calendar-container ._calendar-action-btn-container ._calendar-action-btn:nth-child(1):before{
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn.__n-m:before{
     background-image: url(../assets/left-icon.svg);
 }
-._calendar-container ._calendar-action-btn-container ._calendar-action-btn:nth-child(2):before{
+._calendar-container ._calendar-action-btn-container ._calendar-action-btn.__p_m:before{
     background-image: url(../assets/right-icon.svg);
 }
 ._calendar-container ._calendar-week-days-container,._calendar-container ._calendar-month-days-container{
@@ -120,8 +126,9 @@ div._calendar-container{
 }
 ._calendar-container ._calendar-month-ol li{
     width: calc(100%);
-    min-height:auto;
+    min-height:fit-content;
     min-width: fit-content;
+    max-height: 60px !important;
     border-radius: 12px;
     padding:4px;
     background-color: rgb(241, 241, 241);
@@ -133,11 +140,16 @@ div._calendar-container{
     top: -4px;
     border-radius: inherit;
     text-align: center;
-    left: 0;
+    left: 0px;
+    right: 0;
     font-size: 9px;
+    font-weight: 600;
     white-space: nowrap;
-    width: 100%;
-    color: #1B2631;
+    width:24px;
+    padding:2px;
+    color: #fff;
+    background-color: #a74b9f;
+
 
 }
 ._calendar-container ._calendar-month-ol li button{
@@ -149,7 +161,7 @@ div._calendar-container{
     padding: 6px;
     text-align: center;
     font-size:calc(30% + 10px) ;
-    font-weight: 500;
+    font-weight: 600;
     background-color: transparent;
     color: #205891;
     cursor: pointer;
@@ -163,11 +175,14 @@ div._calendar-container{
     background-color: #205891;
     color: #fff;
 }
+._calendar-container ._calendar-month-day-cell:has(._calendar-month-day-cell){
+    background-color: #1B2631 !important;
+}
 
-._calendar-container ._calendar-first-day-1{grid-column-start: 1;}
-._calendar-container ._calendar-first-day-2{grid-column-start: 2;}
-._calendar-container ._calendar-first-day-3{grid-column-start: 3;}
-._calendar-container ._calendar-first-day-4{grid-column-start: 4;}
-._calendar-container ._calendar-first-day-5{grid-column-start: 5;}
-._calendar-container ._calendar-first-day-6{grid-column-start: 6;}
-._calendar-container ._calendar-first-day-7{grid-column-start: 7;}
+._calendar-container ._calendar-first-day-1{grid-column-start: 1 !important;}
+._calendar-container ._calendar-first-day-2{grid-column-start: 2 !important;}
+._calendar-container ._calendar-first-day-3{grid-column-start: 3 !important;}
+._calendar-container ._calendar-first-day-4{grid-column-start: 4 !important;}
+._calendar-container ._calendar-first-day-5{grid-column-start: 5 !important;}
+._calendar-container ._calendar-first-day-6{grid-column-start: 6 !important;}
+._calendar-container ._calendar-first-day-7{grid-column-start: 7 !important;}
